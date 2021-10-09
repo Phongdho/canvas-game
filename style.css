@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+@-webkit-keyframes waterfall {
+	from {
+		background-position: 84px -2660px, 426px -1080px, 730px -3240px, 872px -2160px, 95% -1350px, 0 0;
+		} to {
+		background-position: 84px 1660px, 426px 3240px, 730px 1080px, 872px 2160px, 95% 2970px, 0 1460px;
+	}
+}
+		
+html {
+    background: #111 url(./images/bg01b.png) 0 0 repeat;
+    background: url(./images/bg03b.png) 84px -1080px no-repeat, url(/images/bg01b.png) 426px -1080px no-repeat, url(./images/bg02b.png) 730px -1080px no-repeat, url(./images/bg03b.png) 872px -1080px no-repeat, url(./images/bg02b.png) 95% -1080px no-repeat, url(./images/bg00.jpeg) 0 0 repeat;
+    background-color: #111;
+    -webkit-animation: waterfall 15s linear infinite;
+    font-family: 'Press Start 2P', cursive;
+}
+
+body {
+    height: 100%;
+    position: relative;
+}
+
+#section1 {
+    width: 100%;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#text-container {
+    width: 100%;
+    height: 50%;
+    background: #111;
+    opacity: 0.9;
+    border: 1px solid;
+    margin-top: 0.5rem;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.header-text {
+    font-size: 2rem;
+    text-align: center;
+    color: rgb(210,246,218);
+    text-transform: uppercase;
+    text-shadow: 1px 5px 25px rgb(0 255 0 / 50%), 1px -5px 15px rgb(0 255 0 / 50%);
+}
+
+#instruction {
+    margin-top: 20px;
+    color: rgba(0,255,0,0.75);
+    text-align: center;
+}
+
+#instruction, h3 {
+    text-shadow: 2px 2px gray;
+}
+#intruction, p {
+    padding-top: 10px;
+    color: lightgray;
+    font-size: 1rem;
+    text-shadow: none;
+}
+
+#gameCanvas {
+    position: absolute;
+    transform: translateY(50px);
+    left: 55%;
+    border: 1.5px solid rgba(0,255,0,0.75);
+    background-color: #111;
+    opacity: 0.9;
+}
