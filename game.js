@@ -12,9 +12,10 @@ let spaceImage, heroImage, mercuryImage, plutoImage, saturnImage, fireballImage,
 
 //Set initial state
 let score = 0;
+let highScore = localStorage.getItem("userhighscore") || 0;
 let gameState = {
     isOver: false,
-    count: 1,
+    count: 15,
 };
 //Load game components images
 function loadImage() {
@@ -67,16 +68,16 @@ let heroX = (canvasWidth/2) - 30;
 let heroY = canvasHeight - 65;
 
 let mercuryX = Math.floor(Math.random() * (canvasWidth - 40));
-let mercuryY = 0; 
+let mercuryY = -100; 
 
 let plutoX = Math.floor(Math.random() * (canvasWidth - 40));
 let plutoY = 0; 
 
 let saturnX = Math.floor(Math.random() * (canvasWidth - 40));
-let saturnY = 0; 
+let saturnY = -50; 
 
 let fireballX = Math.floor(Math.random() * (canvasWidth - 40));
-let fireballY = 0; 
+let fireballY = -20; 
 
 let meteorX = Math.floor(Math.random() * (canvasWidth - 40));
 let meteorY = 0; 
@@ -103,6 +104,16 @@ function draw() {
     }
     if (meteorReady) {
         ctx.drawImage(meteorImage, meteorX, meteorY);
+    }
+
+    document.getElementById("timeArea").innerHTML = `Remaining Time: ${gameState.count}`;
+    document.getElementById("scoreArea").innerHTML = `Current score: ${score}`;
+    document.getElementById("highscoreArea").innerHTML = `Highest Score: ${highScore}`;
+
+    if (gameState.isOver == true) {
+        ctx.font = "25px 'Press Start 2P', cursive";
+        ctx.fillStyle = "#D2F6DA";
+        ctx.fillText(`Game Over`, 150, 250);
     }
 };
 
@@ -139,31 +150,31 @@ let update = function () {
     if (keyPressed['ArrowRight']) {
         heroX += 5;
     }
-    mercuryY += 2.5;
-    plutoY += 2;
+    mercuryY += 3;
+    plutoY += 3;
     saturnY += 2;
     fireballY += 2.5;
     meteorY += 2.5;
 
-    if (mercuryX === canvasHeight) {
-        mercuryX = Math.floor(Math.random() * (canvasWidth - 40));
-        mercuryY = 0; 
+    if (mercuryY === canvasHeight) {
+        mercuryX = Math.floor(Math.random() * (canvasWidth - 42));
+        mercuryY = -100; 
     }
-    else if (plutoX === canvasHeight) {
-        plutoX = Math.floor(Math.random() * (canvasWidth - 40));
+    else if (plutoY === canvasHeight) {
+        plutoX = Math.floor(Math.random() * (canvasWidth - 41));
         plutoY = -20;
     }
-    else if (saturnX === canvasHeight) {
-        saturnX = Math.floor(Math.random() * (canvasWidth - 40));
+    else if (saturnY === canvasHeight) {
+        saturnX = Math.floor(Math.random() * (canvasWidth - 44));
         saturnY = -50; 
     }
-    else if (fireballX === canvasHeight) {
-        fireballX = Math.floor(Math.random() * (canvasWidth - 40));
-        fireballY = 0;
+    else if (fireballY === canvasHeight) {
+        fireballX = Math.floor(Math.random() * (canvasWidth - 50));
+        fireballY = -50;
     }
-    else if (meteorX === canvasHeight) {
-        meteorX = Math.floor(Math.random() * (canvasWidth - 40));
-        meteorY = 0; 
+    else if (meteorY === canvasHeight) {
+        meteorX = Math.floor(Math.random() * (canvasWidth - 44));
+        meteorY = -50; 
     }
     //Conditions to move hero in the canvas in the opposite directions if hero is moved beyond canvas;
     else if (heroX > canvasWidth) {
@@ -180,43 +191,43 @@ let update = function () {
     }
     //Touching conditions between hero object and others in the matrix
     if (
-        heroX <= mercuryX + 40 &&
-        heroX >= mercuryX - 60 &&
-        heroY <= mercuryY + 40 &&
-        heroY >= mercuryY - 60
+        heroX <= (mercuryX + 40) &&
+        mercuryX <= (heroX + 60) &&
+        heroY <= (mercuryY + 40) &&
+        mercuryY <= (heroY + 60)
     ) {
         mercuryX = Math.floor(Math.random() * (canvasWidth - 40));
-        mercuryY = 0;
+        mercuryY = -20;
         score += 5;
     }
     else if (
-        heroX <= saturnX + 40 &&
-        heroX >= saturnX - 60 &&
-        heroY <= saturnY + 40 &&
-        heroY >= saturnY - 60
+        heroX <= (saturnX + 40) &&
+        saturnX <= (heroX + 60) &&
+        heroY <= (saturnY + 40) &&
+        saturnY <= (heroY + 60)
     ) {
         saturnX = Math.floor(Math.random() * (canvasWidth - 40));
-        saturnY = 0;
+        saturnY = -50;
         score += 5;
     }
     else if (
-        heroX <= plutoX + 40 &&
-        heroX >= plutoX - 60 &&
-        heroY <= plutoY + 40 &&
-        heroY >= plutoY - 60
+        heroX <= (plutoX + 40) &&
+        plutoX <= (heroX + 60) &&
+        heroY <= (plutoY + 40) &&
+        plutoY <= (heroY + 60)
     ) {
         plutoX = Math.floor(Math.random() * (canvasWidth - 40));
-        plutoY = 0;
+        plutoY = -10;
         score += 5;
     }
     else if (
-        heroX <= meteorX + 40 &&
-        heroX >= meteorX - 60 &&
-        heroY <= meteorY + 40 &&
-        heroY >= meteorY - 60
+        heroX <= (meteorX + 40) &&
+        meteorX <= (heroX + 60) &&
+        heroY <= (meteorY + 40) &&
+        meteorY <= (heroY + 60)
     ) {
         gameState.isOver = true;
-        gameState.count += 1;
+        gameState.count = 0;
         //Hide all the components on canvas 
         heroReady = false;
         mercuryReady = false;
@@ -226,13 +237,13 @@ let update = function () {
         meteorReady = false; 
     }
     else if (
-        heroX <= fireballX + 40 &&
-        heroX >= fireballX - 60 &&
-        heroY <= fireballY + 40 &&
-        heroY >= fireballY - 60
+        heroX <= (fireballX + 40) &&
+        fireballX <= (heroX + 60) &&
+        heroY <= (fireballY + 40) &&
+        fireballY <= (heroY + 60)
     ) {
         gameState.isOver = true;
-        gameState.count += 1;
+        gameState.count = 0;
         //Hide all the components on canvas 
         heroReady = false;
         mercuryReady = false;
@@ -241,8 +252,11 @@ let update = function () {
         fireballReady = false;
         meteorReady = false; 
     }
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem("userhighscore", highScore);
+    }
 };
-
 
 //Main function
 function main() {
@@ -253,10 +267,26 @@ function main() {
     requestAnimationFrame(main);
 }
 
+//Setting time for each round
+let timeCount = function() {
+    gameState.count --
+    if (gameState.count < 0) {
+        clearInterval(timeCount);
+        gameState.isOver = true;
+        gameState.count = 0;
+        heroReady = false;
+        mercuryReady = false;
+        saturnReady = false;
+        plutoReady = false;
+        fireballReady = false;
+        meteorReady = false; 
+    }
+};
+
+setInterval(timeCount, 1000);
 loadImage();
 setKeyBoardListeners();
 main();
-
 
 var w = window;
 requestAnimationFrame =
@@ -265,8 +295,57 @@ requestAnimationFrame =
   w.msRequestAnimationFrame ||
   w.mozRequestAnimationFrame;
 
+function reset() {
+    gameState.isOver = false;
+    gameState.count = 15;
+    score = 0;
+    heroReady = true;
+    mercuryReady = true;
+    saturnReady = true;
+    plutoReady = true;
+    fireballReady = true;
+    meteorReady = true; 
+    //Setting back initial positions of the elements
+    heroX = (canvasWidth/2) - 30;
+    heroY = canvasHeight - 65;
 
+    mercuryX = Math.floor(Math.random() * (canvasWidth - 40));
+    mercuryY = -100; 
 
+    plutoX = Math.floor(Math.random() * (canvasWidth - 40));
+    plutoY = 0; 
+
+    saturnX = Math.floor(Math.random() * (canvasWidth - 40));
+    saturnY = -50; 
+
+    fireballX = Math.floor(Math.random() * (canvasWidth - 40));
+    fireballY = -20; 
+
+    meteorX = Math.floor(Math.random() * (canvasWidth - 40));
+    meteorY = 0; 
+}
+
+//Input function
+function closeForm(element) {
+    document.getElementById(element).style.display = "none";
+}
+function matrixInput () {
+    let matrixName = document.getElementById("playerName").value;
+    let matrixLabel = document.getElementById("inputTitle");
+
+    if (matrixName === "") {
+        matrixLabel.innerHTML = "Matrix name is...";
+        return;
+    }
+    let matrix = document.getElementById("inputTitle");
+    matrix.innerHTML = "Bonjour " + matrixName;
+    closeForm("input-container");
+    main();
+}
+
+function submit() {
+    matrixInput();
+}
 
 
 

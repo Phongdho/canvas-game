@@ -12,10 +12,18 @@
         <h1 class="header-text">Enter the Matrix</h1>
         <div id="instruction">
           <h3>Rules of the Matrix</h3>
-          <p>Lorem Ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p id="instruction-txt">Matrix through space? Use your arrow keys well, captain. Aim for the stars to earn points to enter the matrix, and avoid the fireball (in red) and space meteors (in brown). It's that simple.</p>
         </div>
         </div>
     </section>
+    <section id="section2"> 
+      <ul style="list-style-type:none;">
+        <li id="timeArea"></li>
+        <li id="scoreArea"></li>
+        <li id="highscoreArea"></li>
+      </ul>
+    </section>
+    <button id="reset-button" onclick="reset()">Reset</button>
     <canvas id="gameCanvas"></canvas>
     <script src="game.js"></script>
   </body>

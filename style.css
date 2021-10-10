@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
 
 @-webkit-keyframes waterfall {
 	from {
@@ -19,6 +20,8 @@ html {
 body {
     height: 100%;
     position: relative;
+    color: rgb(210,246,218);
+    z-index: 1;
 }
 
 #section1 {
@@ -59,9 +62,25 @@ body {
 }
 #intruction, p {
     padding-top: 10px;
-    color: lightgray;
-    font-size: 1rem;
+    color: rgb(210,246,218);
+    letter-spacing: 2;
+    line-height: 1.5;
+    font-size: 1.2rem;
     text-shadow: none;
+    font-family: 'Orbitron', sans-serif;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+#section2 {
+    position: absolute;
+    transform: translateY(50px);
+    right: 65%;
+    font-size: 1.5rem;
+}
+
+#secion2, li {
+    line-height: 5rem;
 }
 
 #gameCanvas {
@@ -71,4 +90,23 @@ body {
     border: 1.5px solid rgba(0,255,0,0.75);
     background-color: #111;
     opacity: 0.9;
+}
+
+#reset-button {
+    position: absolute;
+    transform: translateY(400px);
+    right: 75%;
+    width: 100px;
+    height: 50px;
+    font-family: 'Orbitron';
+    background-color: rgba(0,255,0,0.75);
+    box-shadow: 2px 2px gray;
+    color: rgb(210,246,218);
+    font-size: 1.5rem;
+    opacity: 1;
+    cursor: pointer;
+}
+
+#reset-button:hover {
+    color: black;
 }
