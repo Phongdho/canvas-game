@@ -325,28 +325,5 @@ function reset() {
     meteorY = 0; 
 }
 
-//Input function
-function closeForm(element) {
-    document.getElementById(element).style.display = "none";
-}
-function matrixInput () {
-    let matrixName = document.getElementById("playerName").value;
-    let matrixLabel = document.getElementById("inputTitle");
-
-    if (matrixName === "") {
-        matrixLabel.innerHTML = "Matrix name is...";
-        return;
-    }
-    let matrix = document.getElementById("inputTitle");
-    matrix.innerHTML = "Bonjour " + matrixName;
-    closeForm("input-container");
-    main();
-}
-
-function submit() {
-    matrixInput();
-}
-
-
 
 
