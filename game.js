@@ -14,7 +14,7 @@ let spaceImage, heroImage, mercuryImage, plutoImage, saturnImage, fireballImage,
 let score = 0;
 let gameState = {
     isOver: false,
-    level: 1,
+    count: 1,
 };
 //Load game components images
 function loadImage() {
@@ -64,22 +64,22 @@ function loadImage() {
 
 //Setting up locations of game components within the game canvas for later "draw fuction"
 let heroX = (canvasWidth/2) - 30;
-let heroY = canvasHeight - 30;
+let heroY = canvasHeight - 65;
 
-let mercuryX = Math.floor(Math.random() * (canvasWidth - 42));
-let mercuryY = 40; 
+let mercuryX = Math.floor(Math.random() * (canvasWidth - 40));
+let mercuryY = 0; 
 
-let plutoX = Math.floor(Math.random() * (canvasWidth - 42));
-let plutoY = 40; 
+let plutoX = Math.floor(Math.random() * (canvasWidth - 40));
+let plutoY = 0; 
 
-let saturnX = Math.floor(Math.random() * (canvasWidth - 42));
-let saturnY = 40; 
+let saturnX = Math.floor(Math.random() * (canvasWidth - 40));
+let saturnY = 0; 
 
-let fireballX = Math.floor(Math.random() * (canvasWidth - 42));
-let fireballY = 40; 
+let fireballX = Math.floor(Math.random() * (canvasWidth - 40));
+let fireballY = 0; 
 
-let meteorX = Math.floor(Math.random() * (canvasWidth - 42));
-let meteorY = 40; 
+let meteorX = Math.floor(Math.random() * (canvasWidth - 40));
+let meteorY = 0; 
 
 //Draw function
 function draw() {
@@ -106,15 +106,155 @@ function draw() {
     }
 };
 
+//Keypressed function
+let keyPressed = {};
+function setKeyBoardListeners () {
+    document.addEventListener(
+        'keydown',
+        function (e) {
+            keyPressed[e.key] = true;
+        },
+        false
+    );
+    document.addEventListener(
+        'keyup',
+        function (e) {
+            delete keyPressed[e.key];
+        },
+        false
+    );
+}
+
+//Update function
+let update = function () {
+    if (keyPressed['ArrowUp']) {
+        heroY -= 5;
+    }
+    if (keyPressed['ArrowDown']) {
+        heroY += 5;
+    }
+    if (keyPressed['ArrowLeft']) {
+        heroX -= 5;
+    }
+    if (keyPressed['ArrowRight']) {
+        heroX += 5;
+    }
+    mercuryY += 2.5;
+    plutoY += 2;
+    saturnY += 2;
+    fireballY += 2.5;
+    meteorY += 2.5;
+
+    if (mercuryX === canvasHeight) {
+        mercuryX = Math.floor(Math.random() * (canvasWidth - 40));
+        mercuryY = 0; 
+    }
+    else if (plutoX === canvasHeight) {
+        plutoX = Math.floor(Math.random() * (canvasWidth - 40));
+        plutoY = -20;
+    }
+    else if (saturnX === canvasHeight) {
+        saturnX = Math.floor(Math.random() * (canvasWidth - 40));
+        saturnY = -50; 
+    }
+    else if (fireballX === canvasHeight) {
+        fireballX = Math.floor(Math.random() * (canvasWidth - 40));
+        fireballY = 0;
+    }
+    else if (meteorX === canvasHeight) {
+        meteorX = Math.floor(Math.random() * (canvasWidth - 40));
+        meteorY = 0; 
+    }
+    //Conditions to move hero in the canvas in the opposite directions if hero is moved beyond canvas;
+    else if (heroX > canvasWidth) {
+        heroX = 0;
+    }  
+    else if (heroX < 0) {
+        heroX = canvasWidth;
+    } 
+    else if (heroY > canvasHeight) {
+        heroY = 0;
+    } 
+    else if (heroY < 0) {
+        heroY = canvasHeight;
+    }
+    //Touching conditions between hero object and others in the matrix
+    if (
+        heroX <= mercuryX + 40 &&
+        heroX >= mercuryX - 60 &&
+        heroY <= mercuryY + 40 &&
+        heroY >= mercuryY - 60
+    ) {
+        mercuryX = Math.floor(Math.random() * (canvasWidth - 40));
+        mercuryY = 0;
+        score += 5;
+    }
+    else if (
+        heroX <= saturnX + 40 &&
+        heroX >= saturnX - 60 &&
+        heroY <= saturnY + 40 &&
+        heroY >= saturnY - 60
+    ) {
+        saturnX = Math.floor(Math.random() * (canvasWidth - 40));
+        saturnY = 0;
+        score += 5;
+    }
+    else if (
+        heroX <= plutoX + 40 &&
+        heroX >= plutoX - 60 &&
+        heroY <= plutoY + 40 &&
+        heroY >= plutoY - 60
+    ) {
+        plutoX = Math.floor(Math.random() * (canvasWidth - 40));
+        plutoY = 0;
+        score += 5;
+    }
+    else if (
+        heroX <= meteorX + 40 &&
+        heroX >= meteorX - 60 &&
+        heroY <= meteorY + 40 &&
+        heroY >= meteorY - 60
+    ) {
+        gameState.isOver = true;
+        gameState.count += 1;
+        //Hide all the components on canvas 
+        heroReady = false;
+        mercuryReady = false;
+        saturnReady = false;
+        plutoReady = false;
+        fireballReady = false;
+        meteorReady = false; 
+    }
+    else if (
+        heroX <= fireballX + 40 &&
+        heroX >= fireballX - 60 &&
+        heroY <= fireballY + 40 &&
+        heroY >= fireballY - 60
+    ) {
+        gameState.isOver = true;
+        gameState.count += 1;
+        //Hide all the components on canvas 
+        heroReady = false;
+        mercuryReady = false;
+        saturnReady = false;
+        plutoReady = false;
+        fireballReady = false;
+        meteorReady = false; 
+    }
+};
+
+
 //Main function
 function main() {
     if (!gameState.isOver) {
+        update();
         draw();
     }
     requestAnimationFrame(main);
 }
 
 loadImage();
+setKeyBoardListeners();
 main();
 
 
